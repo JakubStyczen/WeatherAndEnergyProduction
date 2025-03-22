@@ -17,7 +17,7 @@ static void updateVariable(UA_Server *server) {
     CustomData data;
     data.intValue = counter;
     snprintf(data.stringValue, sizeof(data.stringValue), "Message %d", counter);
-    counter++;
+    // counter++;
 
     // Tworzenie wariantu OPC UA
     UA_Variant value;
@@ -50,17 +50,24 @@ void* updateThread(void *arg) {
 
     while (1) {
         // Co sekundę aktualizujemy zmienną
-        updateVariable(server);
+        // updateVariable(server);
         sleep(1);  // Pauza na 1 sekundę
     }
     return NULL;
 }
 
-static void serverRun() {
-    UA_Server *server = UA_Server_new();
-    UA_ServerConfig_setDefault(UA_Server_getConfig(server));
+//static void serverRun(){
+//    UA_Server *server = UA_Server_new();
+    //UA_ServerConfig_setMinimal(config, 4840, "10.147.17.26");
+    //UA_ServerConfig_setDefault(UA_Server_getConfig(server));
+ //   UA_ServerConfig *config = UA_Server_getConfig(server);
 
-    addVariable(server);
+//    UA_ServerConfig_setMinimal(config, 4840, NULL);
+  //  UA_String customServerUrls[1];
+ //   customServerUrls[0] = UA_STRING("10.147.17.26");
+ //   config->serverUrls = customServerUrls;
+  //  config->serverUrlsSize = 1;
+   // addVariable(server);
 
     //while (true) {
     //    updateVariable(server);
@@ -68,18 +75,28 @@ static void serverRun() {
         //UA_sleep_ms(1000);  // Co sekundę aktualizuje zmienną
 	//sleep(1);
     //}
-    UA_Server_runUntilInterrupt(server);
-    UA_Server_delete(server);
-}
+  //  UA_Server_runUntilInterrupt(server);
+  //  UA_Server_delete(server);
+//}
 
 int main(void) {
     UA_Server *server = UA_Server_new();
-    UA_ServerConfig_setDefault(UA_Server_getConfig(server));
+    UA_ServerConfig *config = UA_Server_getConfig(server);
+
+   // UA_ServerConfig_setMinimal(config, 4840, NULL);
+  
+    UA_String customServerUrls[1];
+    customServerUrls[0] = UA_STRING("opc.tcp://192.168.192.26:4840");
+    size_t customServerUrlsSize = 1;
+
+    config->serverUrls = customServerUrls;
+    config->serverUrlsSize = customServerUrlsSize;
+    config->applicationDescription.applicationName = UA_LOCALIZEDTEXT_ALLOC("en", "Example for Medium");
 
     addVariable(server);
     
-    pthread_t thread;
-    pthread_create(&thread, NULL, updateThread, (void *)server);
+    // pthread_t thread;
+    // pthread_create(&thread, NULL, updateThread, (void *)server);
     printf("OPC UA Server started...\n");
     UA_Server_runUntilInterrupt(server);
     UA_Server_delete(server);
