@@ -29,9 +29,9 @@ void *send_worker(void *arg) {
 
 void fetch_weather_data_multithreaded(GeoLoc *geoArray,
                                       WeatherData *weatherArray,
-                                      UrlData url_data, int loaded) {
-  UA_Client *client =
-      create_and_start_opc_ua_client("opc.tcp://192.168.192.26:4840");
+                                      UrlData url_data, int loaded,
+                                      char *server_url) {
+  UA_Client *client = create_and_start_opc_ua_client(server_url);
   if (client == NULL) {
     printf("Failed to start client\n");
     return;
@@ -69,7 +69,6 @@ void fetch_weather_data_multithreaded(GeoLoc *geoArray,
   }
 
   for (int i = 0; i < THREAD_COUNT; i++) {
-    // pthread_join(client_tid, NULL);
     pthread_join(threads[i], NULL);
     pthread_join(send_threads[i], NULL);
   }

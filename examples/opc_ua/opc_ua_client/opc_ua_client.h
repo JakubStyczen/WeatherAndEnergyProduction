@@ -13,9 +13,9 @@
 
 #include "../../weather_condition/weather_condition.h"
 
-// #define DATA_ARRAY_SIZE 69
+#define DATA_ARRAY_SIZE 69
 
-static const int nodeIDs[69] = {
+static const int nodeIDs[DATA_ARRAY_SIZE] = {
     2101, 2201, 2301, 2401, 2501, 2601, 2701, 2801, 2901, 2111, 2211, 2311,
     2411, 2511, 2611, 2711, 2811, 2911, 2121, 2221, 2321, 2421, 2521, 2621,
     2721, 2821, 2921, 2131, 2231, 2331, 2431, 2531, 2631, 2731, 2831, 2931,

@@ -91,7 +91,7 @@ void add_weather_object_for_every_section(UA_Server *server, GeoLoc array[],
   }
 }
 
-void create_and_start_opc_ua_server(char *server_url) {
+void create_and_start_opc_ua_server(char *server_url, GeoLoc array[]) {
   UA_Server *server = UA_Server_new();
   UA_ServerConfig *config = UA_Server_getConfig(server);
 
@@ -103,20 +103,13 @@ void create_and_start_opc_ua_server(char *server_url) {
   config->serverUrlsSize = customServerUrlsSize;
   config->applicationDescription.applicationName =
       UA_LOCALIZEDTEXT_ALLOC("en", "Example for Medium");
+
   UA_NodeId parentNodeId = UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER);
   add_object(server, "Weather station", 1001, parentNodeId);
   add_object(server, "Weather data", 2001, UA_NODEID_NUMERIC(1, 1001));
-  GeoLoc geoArray[MAX_RECORDS];
-  allocate_geo_array(geoArray, MAX_RECORDS);
 
-  int loaded = load_geo_data_from_csv("geo_loc_sections/sections.csv", geoArray,
-                                      MAX_RECORDS);
-  if (loaded > 0) {
-    printf("Loaded %d records.\n", loaded);
-  } else {
-    printf("Failed to load records from file.\n");
-  }
-  add_weather_object_for_every_section(server, geoArray, 2001);
+  add_weather_object_for_every_section(server, array, 2001);
+  // TODO: Add nodes for other tasks
 
   printf("OPC UA Server started...\n");
   UA_Server_runUntilInterrupt(server);

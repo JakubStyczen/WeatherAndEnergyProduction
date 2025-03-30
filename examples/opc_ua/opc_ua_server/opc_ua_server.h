@@ -10,7 +10,7 @@
 
 #include "../../geo_loc_sections/sections.h"
 
-#define DATA_ARRAY_SIZE 10
+#define DATA_ARRAY_SIZE 69
 
 static void add_object(UA_Server *server, char *name, int nodeID,
                        UA_NodeId parent_nodeID);
@@ -22,7 +22,7 @@ void add_int32_node(UA_Server *server, char *name, int nodeID,
                     int parent_nodeID);
 void add_weather_object(UA_Server *server, char *name, int nodeID,
                         int parent_nodeID);
-void create_and_start_opc_ua_server(char *server_url);
+void create_and_start_opc_ua_server(char *server_url, GeoLoc array[]);
 
 void add_weather_object_for_every_section(UA_Server *server, GeoLoc array[],
                                           int parent_nodeID);
