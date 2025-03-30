@@ -1,1 +1,0 @@
-gcc -I -std=c99 -o main main.c ../geo_loc_sections/[Aclaerctions/sections.c weather_condition.c -lcurl -lcjson

@@ -38,8 +38,10 @@ char* build_url(const char* base_url, double lat_d, double lon_d, const char* un
     return url;
 }
 
-double get_temperature(const char *url) {
+void fetch_weather_data(const char *url, WeatherData *weather_data) {
     double temperature_value = 0.0;
+    double wind_speed_value = 0.0;
+    int cloudiness_value = 0;
     CURL *curl;
     CURLcode res;
     struct MemoryStruct chunk;
@@ -64,15 +66,23 @@ double get_temperature(const char *url) {
             cJSON *json = cJSON_Parse(chunk.memory);
             if (json == NULL) {
                 printf("Error while parsing JSON\n");
-                return temperature_value;
+                return;
             }
 
             cJSON *main = cJSON_GetObjectItem(json, "main");
             cJSON *temp = cJSON_GetObjectItem(main, "temp");
+            cJSON *wind = cJSON_GetObjectItem(json, "wind");
+            cJSON *wind_speed = cJSON_GetObjectItem(wind, "speed");
+            cJSON *clouds = cJSON_GetObjectItem(json, "clouds");
+            cJSON *cloudiness = cJSON_GetObjectItem(clouds, "all");
 
-            if (temp != NULL) {
+            if (temp != NULL && wind_speed != NULL && cloudiness != NULL) {
                 // printf("Temperature: %.2f°C\n", temp->valuedouble);
-                temperature_value = temp->valuedouble;
+                // printf("Wind speed: %.2f\n", wind_speed->valuedouble);
+                // printf("Cloudiness: %d\n", cloudiness->valueint);
+                weather_data->temperature = temp->valuedouble;
+                weather_data->wind_speed = wind_speed->valuedouble;
+                weather_data->cloudiness = cloudiness->valueint;
             }
 
             cJSON_Delete(json);
@@ -85,7 +95,6 @@ double get_temperature(const char *url) {
 
     curl_global_cleanup();
 
-    return temperature_value;
 }
 
 int download_temperature_data_sections(GeoLoc geoArray[], WeatherData weatherArray[], UrlData url_data, int start_idx, int end_idx){
@@ -97,12 +106,10 @@ int download_temperature_data_sections(GeoLoc geoArray[], WeatherData weatherArr
         if (url == NULL) {
             return 1;
         }
-        double temperature = get_temperature(url);
+        fetch_weather_data(url, &(weatherArray[i]));
             
         strncpy(weatherArray[i].cities, geoArray[i].cities, sizeof(weatherArray[i].cities) - 1);
         weatherArray[i].cities[sizeof(weatherArray[i].cities) - 1] = '\0';
-        weatherArray[i].temperature = temperature;
-
         free(url);
     }   
 }

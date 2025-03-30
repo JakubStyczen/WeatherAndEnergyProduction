@@ -11,6 +11,8 @@
 typedef struct {
     char cities[100];
     double temperature;
+    double wind_speed;
+    int cloudiness;
 } WeatherData;
 
 struct MemoryStruct {
@@ -25,7 +27,7 @@ typedef struct {
 } UrlData;
 
 char* build_url(const char* base_url, double lat_d, double lon_d, const char* units, const char* api_key);
-double get_temperature(const char* url);
+void fetch_weather_data(const char* url, WeatherData *weather_data);
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
 int download_temperature_data_sections(GeoLoc geoArray[], WeatherData weatherArray[], UrlData url_data, int start_idx, int end_idx);
 
