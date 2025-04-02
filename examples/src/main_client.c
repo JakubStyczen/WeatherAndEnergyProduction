@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "env_loader/env_loader.h"
-#include "opc_ua/opc_ua_client/opc_ua_client.h"
-#include "weather_thread/weather_thread.h"
+#include "../include/env_loader.h"
+#include "../include/opc_ua_client.h"
+#include "../include/weather_thread.h"
 
-#define SECTIONS_FILE_PATH "geo_loc_sections/sections.csv"
+#define SECTIONS_FILE_PATH "resources/sections.csv"
 
 int main() {
   load_env(".env");

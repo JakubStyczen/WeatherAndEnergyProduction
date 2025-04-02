@@ -3,10 +3,10 @@ CFLAGS = #-Wall -Wextra -std=c11
 LDFLAGS_SERVER = -lopen62541
 LDFLAGS_CLIENT = -lopen62541 -lcurl -lcjson
 
-SRC_SERVER = main.c env_loader/env_loader.c opc_ua/opc_ua_server/opc_ua_server.c geo_loc_sections/sections.c
+SRC_SERVER = src/main.c src/env_loader.c src/opc_ua_server.c src/sections.c
 OBJ_SERVER = $(SRC_SERVER:.c=.o)
 
-SRC_CLIENT = main_client.c env_loader/env_loader.c weather_thread/weather_thread.c opc_ua/opc_ua_client/opc_ua_client.c geo_loc_sections/sections.c weather_condition/weather_condition.c
+SRC_CLIENT = src/main_client.c src/env_loader.c src/weather_thread.c src/opc_ua_client.c src/sections.c src/weather_condition.c
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 
 .PHONY: all server client clean help

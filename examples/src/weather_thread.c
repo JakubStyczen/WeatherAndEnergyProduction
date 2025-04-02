@@ -1,4 +1,4 @@
-#include "weather_thread.h"
+#include "../include/weather_thread.h"
 
 void *thread_worker(void *arg) {
   ThreadArgs *args = (ThreadArgs *)arg;

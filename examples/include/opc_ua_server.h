@@ -8,7 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "../../geo_loc_sections/sections.h"
+#include "sections.h"
 
 #define DATA_ARRAY_SIZE 69
 

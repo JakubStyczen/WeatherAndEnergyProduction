@@ -1,4 +1,4 @@
-#include "opc_ua_server.h"
+#include "../include/opc_ua_server.h"
 
 static void add_object(UA_Server *server, char *name, int nodeID,
                        UA_NodeId parent_nodeID) {

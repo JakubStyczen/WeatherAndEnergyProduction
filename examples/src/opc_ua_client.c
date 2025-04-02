@@ -1,4 +1,4 @@
-#include "opc_ua_client.h"
+#include "../include/opc_ua_client.h"
 
 void browse_node(UA_Client *client, int node_id) {
   UA_NodeId startNode = UA_NODEID_NUMERIC(1, node_id);

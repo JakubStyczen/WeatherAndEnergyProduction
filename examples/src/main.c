@@ -3,15 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "env_loader/env_loader.h"
-#include "opc_ua/opc_ua_server/opc_ua_server.h"
+#include "../include/env_loader.h"
+#include "../include/opc_ua_server.h"
 
-#define SECTIONS_FILE_PATH "geo_loc_sections/sections.csv"
+#define SECTIONS_FILE_PATH "resources/sections.csv"
 
 int main() {
   load_env(".env");
   const char *server_url = getenv("SERVER_URL");
-
+  printf("Loaded %s records.\n", server_url);
   GeoLoc geoArray[MAX_RECORDS];
   allocate_geo_array(geoArray, MAX_RECORDS);
 

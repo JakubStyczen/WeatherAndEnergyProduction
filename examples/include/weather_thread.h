@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../opc_ua/opc_ua_client/opc_ua_client.h"
-#include "../weather_condition/weather_condition.h"
+#include "opc_ua_client.h"
+#include "weather_condition.h"
 
 #define THREAD_COUNT 10
 

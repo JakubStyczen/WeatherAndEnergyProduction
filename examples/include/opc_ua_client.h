@@ -11,7 +11,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "../../weather_condition/weather_condition.h"
+#include "weather_condition.h"
 
 #define DATA_ARRAY_SIZE 69
 
