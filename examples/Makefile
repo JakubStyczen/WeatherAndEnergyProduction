@@ -9,9 +9,17 @@ OBJ_SERVER = $(SRC_SERVER:.c=.o)
 SRC_CLIENT = src/main_client.c src/env_loader.c src/weather_thread.c src/opc_ua_client.c src/sections.c src/weather_condition.c
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 
-.PHONY: all server client clean help
+.PHONY: all build server client clean help
+
+BUILD_DIR = build/
 
 all: server client
+
+build: 
+	mkdir -p $(BUILD_DIR)
+	cp -r resources/sections.csv $(BUILD_DIR)
+	cp .env $(BUILD_DIR)
+	cd $(BUILD_DIR) && cmake .. && make
 
 server: $(OBJ_SERVER)
 	$(CC) $(CFLAGS) $(OBJ_SERVER) -o server_opc_ua $(LDFLAGS_SERVER)
@@ -28,6 +36,7 @@ clean:
 help:
 	@echo "Makefile Usage:"
 	@echo "  make          - Build both server and client"
+	@echo "  make build    - Build project by cmake in $(BUILD_DIR)"
 	@echo "  make server   - Build only the server"
 	@echo "  make client   - Build only the client"
 	@echo "  make clean    - Remove compiled files"

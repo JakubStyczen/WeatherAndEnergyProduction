@@ -25,15 +25,20 @@ UNITS=metric
 SERVER_URL=
 ```
 
-## Complie:
-CLIENT 
-gcc -o client main_client.c env_loader/env_loader.c weather_thread/weather_thread.c  opc_ua/opc_ua_client/opc_ua_client.c geo_loc_sections/sections.c weather_condition/weather_condition.c -lopen62541 -lcurl -lcjson
+## Compliation:
+### Via make:
+- server `make server`
+- client `make client`
+- both server and client `make` 
 
-SERVER
-gcc -o server main.c env_loader/env_loader.c opc_ua/opc_ua_server/opc_ua_server.c geo_loc_sections/sections.c -lopen62541
+### Via cmake
+- collects main CMakeLists.txt and stores results of building in **build/** dir:
+    ```
+    make build
+    ```
 
 ## Strukture:
-
+<pre>
 ObjectsFolder (NodeId: 85)
 │
 ├── Weather station (Object, NodeId: 1001)
@@ -52,3 +57,4 @@ ObjectsFolder (NodeId: 85)
 │   |   ├── City10 (Object, NodeId: 2111)
 │   |   ├── City11 (Object, NodeId: 2211)
 │   |   ├── City12 (Object, NodeId: 2311)
+</pre>
