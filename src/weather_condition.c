@@ -122,3 +122,23 @@ int download_temperature_data_sections(GeoLoc geoArray[],
     free(url);
   }
 }
+
+int download_temperature_data_sections_mockable(GeoLoc geoArray[],
+                                                WeatherData weatherArray[],
+                                                UrlData url_data, int start_idx,
+                                                int end_idx,
+                                                WeatherProvider *provider) {
+  for (int i = start_idx; i < end_idx; i++) {
+    char *url =
+        provider->build_url(url_data.base_url, geoArray[i].lat, geoArray[i].lon,
+                            url_data.units, url_data.api_key);
+    if (!url) return 1;
+
+    provider->fetch_weather_data(url, &weatherArray[i]);
+    strncpy(weatherArray[i].cities, geoArray[i].cities,
+            sizeof(weatherArray[i].cities) - 1);
+    weatherArray[i].cities[sizeof(weatherArray[i].cities) - 1] = '\0';
+    free(url);
+  }
+  return 0;
+}

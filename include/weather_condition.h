@@ -27,6 +27,12 @@ typedef struct {
   const char *units;
 } UrlData;
 
+typedef struct {
+  void (*fetch_weather_data)(const char *url, WeatherData *data);
+  char *(*build_url)(const char *base_url, double lat, double lon,
+                     const char *units, const char *api_key);
+} WeatherProvider;
+
 char *build_url(const char *base_url, double lat_d, double lon_d,
                 const char *units, const char *api_key);
 void fetch_weather_data(const char *url, WeatherData *weather_data);
@@ -37,4 +43,9 @@ int download_temperature_data_sections(GeoLoc geoArray[],
                                        UrlData url_data, int start_idx,
                                        int end_idx);
 
+int download_temperature_data_sections_mockable(GeoLoc geoArray[],
+                                                WeatherData weatherArray[],
+                                                UrlData url_data, int start_idx,
+                                                int end_idx,
+                                                WeatherProvider *provider);
 #endif  // WEATHER_CONDITION_H

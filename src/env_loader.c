@@ -13,15 +13,20 @@ void load_env(const char *filename) {
 
   char line[MAX_ENV_LINE];
   while (fgets(line, sizeof(line), file)) {
-    // skip empty lines and comments
     if (line[0] == '#' || line[0] == '\n') {
       continue;
     }
 
     line[strcspn(line, "\n")] = 0;
 
-    char *key = strtok(line, "=");
-    char *value = strtok(NULL, "=");
+    char *equals_sign = strchr(line, '=');
+    if (!equals_sign || equals_sign == line) {
+      continue;
+    }
+
+    *equals_sign = '\0';
+    char *key = line;
+    char *value = equals_sign + 1;
 
     if (key && value) {
       setenv(key, value, 1);
