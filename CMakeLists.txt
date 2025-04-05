@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
 include_directories(/usr/include)
+include_directories(/usr/local/include)
 add_subdirectory(tests)
 
 set(SERVER_SOURCES
