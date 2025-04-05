@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
+include_directories(/usr/include)
 add_subdirectory(tests)
 
 set(SERVER_SOURCES

@@ -49,6 +49,7 @@ jobs:
 
     - name: Build project
       run: |
+        touch .env
         make build
 
     - name: Run tests
