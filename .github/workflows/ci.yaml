@@ -118,12 +118,13 @@ jobs:
         name: opc-ua-binaries
 
     - name: Run tests
+      run: |
         export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
         make test
 
     - name: Generate test report
       run: |
-        make run_tests --gtest_output=xml:build/test_results.xml
+        make test --gtest_output=xml:build/test_results.xml
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
