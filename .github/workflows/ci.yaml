@@ -36,7 +36,7 @@ jobs:
 
     - name: Update submodule (open62541)
       run: |
-        git submodule update --init --recursive  # Zaktualizuj submoduł open62541
+        git submodule update --init --recursive
 
     - name: Build open62541
       run: |
@@ -49,6 +49,7 @@ jobs:
 
     - name: Build project
       run: |
+        find / -name cJSON.h
         touch .env
         make build
 
