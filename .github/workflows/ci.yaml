@@ -16,7 +16,7 @@ jobs:
     - name: Checkout repository with submodules
       uses: actions/checkout@v2
       with:
-        submodules: true  # Pobierz submoduły, w tym open62541
+        submodules: true
 
     - name: Install dependencies
       run: |
@@ -47,20 +47,10 @@ jobs:
         make
         sudo make install  # Zainstaluj open62541
 
-    - name: Create build directory for project
-      run: mkdir -p build
-
-    - name: Configure with CMake
-      run: |
-        cd build
-        cmake ..
-
     - name: Build project
       run: |
-        cd build
-        make
+        make build
 
     - name: Run tests
       run: |
-        cd build
         make run_tests
