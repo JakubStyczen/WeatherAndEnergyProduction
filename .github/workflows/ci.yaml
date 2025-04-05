@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout repository with submodules
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: true
 
@@ -45,7 +45,7 @@ jobs:
         cd build
         cmake ..
         make
-        sudo make install  # Zainstaluj open62541
+        sudo make install
 
     - name: Install cJSON
       run: |
@@ -63,7 +63,7 @@ jobs:
         make build
     
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: opc-ua-binaries
         path: |
@@ -81,10 +81,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Download build artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: opc-ua-binaries
 
@@ -97,7 +97,7 @@ jobs:
         make run_tests --gtest_output=xml:build/test_results.xml
 
     - name: Upload Test Results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: build/test_results.xml
