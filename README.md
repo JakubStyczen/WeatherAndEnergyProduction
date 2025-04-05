@@ -24,6 +24,7 @@ API_KEY=
 UNITS=metric
 SERVER_URL=
 ```
+- install GTest: `sudo apt-get install libgtest-dev`
 
 ## Compliation:
 ### Via make:

@@ -53,3 +53,6 @@ dkms.conf
 
 # Env files
 .env
+
+# Build dir
+build/

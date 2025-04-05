@@ -19,6 +19,7 @@ void *send_worker(void *arg) {
 
   printf("Sending data for idx: %d - %d\n", args->start_idx, args->end_idx);
   for (int i = args->start_idx; i < args->end_idx; i++) {
+    printf("Sending data for idx: %d\n", i);
     send_weather_data(args->client, args->weatherArray[i], nodeIDs[i]);
   }
 
