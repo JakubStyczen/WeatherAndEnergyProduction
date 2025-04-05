@@ -1,0 +1,48 @@
+name: WeatherAndEnergyProduction CI Piepeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          libcurl4-openssl-dev \
+          libjson-c-dev \
+          libgtest-dev \
+          libgmock-dev \
+          libopen62541-dev \
+          gcc \
+          g++
+          
+    - name: Create build directory
+      run: |
+        mkdir -p build
+        cd build
+
+    - name: Configure with CMake
+      run: |
+        make build
+
+    - name: Run tests
+      run: |
+        make run_tests
+
+    - name: Upload coverage report
+      if: success()
+      uses: codecov/codecov-action@v2
