@@ -55,7 +55,7 @@ jobs:
         cd build
         cmake ..
         make
-        make install
+        sudo make install
         sudo ldconfig
 
     - name: Build project
