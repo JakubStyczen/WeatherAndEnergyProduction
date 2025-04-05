@@ -47,9 +47,18 @@ jobs:
         make
         sudo make install  # Zainstaluj open62541
 
+    - name: Install cJSON
+      run: |
+        git clone https://github.com/DaveGamble/cJSON.git
+        cd cJSON
+        mkdir build
+        cd build
+        cmake ..
+        make
+        sudo make install
+
     - name: Build project
       run: |
-        find / -name cJSON.h
         touch .env
         make build
 
