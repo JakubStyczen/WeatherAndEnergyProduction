@@ -55,7 +55,8 @@ jobs:
         cd build
         cmake ..
         make
-        sudo make install
+        make install
+        sudo ldconfig
 
     - name: Build project
       run: |
@@ -64,6 +65,7 @@ jobs:
 
     - name: Run tests
       run: |
+        export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
         make test
     
     - name: Upload build artifacts
