@@ -117,18 +117,23 @@ jobs:
       with:
         name: opc-ua-binaries
 
+    - name: Extract OPC UA binaries
+      run: |
+        unzip opc_ua_binaries.zip -d ./opc_ua_binaries
+
     - name: Run tests
       run: |
+        sudo chmod +x ./opc_ua_binaries/tests/run_tests
         export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-        make test
+        ./run_tests
 
     - name: Generate test report
       run: |
-        make test --gtest_output=xml:build/test_results.xml
+        ./run_tests --gtest_output=xml:test_results.xml
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: build/test_results.xml
+        path: test_results.xml
 
