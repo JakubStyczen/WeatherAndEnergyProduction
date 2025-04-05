@@ -1,4 +1,4 @@
-name: WeatherAndEnergyProduction CI Piepeline
+name: C Project CI Pipeline
 
 on:
   push:
@@ -13,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repository with submodules
       uses: actions/checkout@v2
+      with:
+        submodules: true  # Pobierz submoduły, w tym open62541
 
     - name: Install dependencies
       run: |
@@ -26,23 +28,39 @@ jobs:
           libjson-c-dev \
           libgtest-dev \
           libgmock-dev \
-          libopen62541-dev \
           gcc \
-          g++
-          
-    - name: Create build directory
+          g++ \
+          git \
+          pkg-config \
+          libssl-dev
+
+    - name: Update submodule (open62541)
       run: |
+        git submodule update --init --recursive  # Zaktualizuj submoduł open62541
+
+    - name: Build open62541
+      run: |
+        cd open62541
         mkdir -p build
         cd build
+        cmake ..
+        make
+        sudo make install  # Zainstaluj open62541
+
+    - name: Create build directory for project
+      run: mkdir -p build
 
     - name: Configure with CMake
       run: |
-        make build
+        cd build
+        cmake ..
+
+    - name: Build project
+      run: |
+        cd build
+        make
 
     - name: Run tests
       run: |
+        cd build
         make run_tests
-
-    - name: Upload coverage report
-      if: success()
-      uses: codecov/codecov-action@v2
