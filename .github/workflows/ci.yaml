@@ -73,7 +73,7 @@ jobs:
 
     - name: Run tests
       run: |
-        make run_tests
+        make test
 
   test:
     needs: build
@@ -90,7 +90,7 @@ jobs:
 
     - name: Run tests
       run: |
-        make run_tests
+        make test
 
     - name: Generate test report
       run: |
