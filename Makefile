@@ -20,7 +20,7 @@ all: server client
 build: 
 	mkdir -p $(BUILD_DIR)
 	cp -r resources/ $(BUILD_DIR)
-	cp .env $(BUILD_DIR)
+	test -f ".env" && cp .env $(BUILD_DIR)
 	cd $(BUILD_DIR) && cmake .. && make
 
 test:

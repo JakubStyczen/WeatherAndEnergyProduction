@@ -60,11 +60,11 @@ jobs:
 
     - name: Build project
       run: |
+        touch .env
         make build
 
     - name: Run tests
       run: |
-        touch .env
         export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
         make test
     
@@ -118,8 +118,6 @@ jobs:
         name: opc-ua-binaries
 
     - name: Run tests
-      run: |
-        touch .env
         export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
         make test
 
