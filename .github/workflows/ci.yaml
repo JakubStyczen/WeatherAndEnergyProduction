@@ -119,6 +119,7 @@ jobs:
 
     - name: Extract OPC UA binaries
       run: |
+        ls
         unzip opc-ua-binaries.zip -d ./opc-ua-binaries
 
     - name: Run tests
