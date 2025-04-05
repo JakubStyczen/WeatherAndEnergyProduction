@@ -61,7 +61,44 @@ jobs:
       run: |
         touch .env
         make build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: opc-ua-binaries
+        path: |
+          build/server_opc_ua
+          build/client_opc_ua
+          build/tests/run_tests
 
     - name: Run tests
       run: |
         make run_tests
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: opc-ua-binaries
+
+    - name: Run tests
+      run: |
+        make run_tests
+
+    - name: Generate test report
+      run: |
+        make run_tests --gtest_output=xml:build/test_results.xml
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: build/test_results.xml
+
