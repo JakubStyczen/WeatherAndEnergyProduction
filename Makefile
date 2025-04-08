@@ -3,10 +3,10 @@ CFLAGS = #-Wall -Wextra -std=c11
 LDFLAGS_SERVER = -lopen62541
 LDFLAGS_CLIENT = -lopen62541 -lcurl -lcjson
 
-SRC_SERVER = src/main.c src/env_loader.c src/opc_ua_server.c src/sections.c
+SRC_SERVER = src/main.c src/env_loader.c src/opc_ua_server.c src/sections.c src/log.c
 OBJ_SERVER = $(SRC_SERVER:.c=.o)
 
-SRC_CLIENT = src/main_client.c src/env_loader.c src/weather_thread.c src/opc_ua_client.c src/sections.c src/weather_condition.c
+SRC_CLIENT = src/main_client.c src/env_loader.c src/weather_thread.c src/opc_ua_client.c src/sections.c src/weather_condition.c src/log.c
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 
 .PHONY: all build test server client clean help
@@ -19,6 +19,7 @@ all: server client
 
 build: 
 	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)logs
 	cp -r resources/ $(BUILD_DIR)
 	test -f ".env" && cp .env $(BUILD_DIR)
 	cd $(BUILD_DIR) && cmake .. && make

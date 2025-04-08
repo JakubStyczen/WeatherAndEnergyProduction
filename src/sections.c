@@ -1,5 +1,7 @@
 #include "../include/sections.h"
 
+#include "../include/log.h"
+
 void allocate_geo_array(GeoLoc array[], int size) {
   for (int i = 0; i < size; i++) {
     array[i].cities[0] = '\0';
@@ -19,7 +21,7 @@ int add_geo_record(GeoLoc array[], int size, const char* cities, double lat,
       return 0;
     }
   }
-  printf("Space limit, no free space!\n");
+  log_error("Space limit, no free space!\n");
   return -1;
 }
 
@@ -41,7 +43,7 @@ int load_geo_data_from_csv(const char* filename, GeoLoc array[], int max_size) {
       add_geo_record(array, max_size, city, lat, lon);
       count++;
     } else {
-      printf("Błąd parsowania linii: %s", line);
+      log_error("Błąd parsowania linii: %s", line);
     }
   }
 

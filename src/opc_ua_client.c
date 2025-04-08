@@ -1,5 +1,7 @@
 #include "../include/opc_ua_client.h"
 
+#include "../include/log.h"
+
 void browse_node(UA_Client *client, int node_id) {
   UA_NodeId startNode = UA_NODEID_NUMERIC(1, node_id);
   printf("Browsing nodes under NodeId %d\n", startNode.identifier.numeric);
@@ -20,14 +22,14 @@ void browse_node(UA_Client *client, int node_id) {
       for (size_t j = 0; j < bResp.results[i].referencesSize; j++) {
         UA_ReferenceDescription *ref = &bResp.results[i].references[j];
 
-        printf("Found Node: %.*s (NodeId: %d)\n",
-               (int)ref->browseName.name.length, ref->browseName.name.data,
-               ref->nodeId.nodeId.identifier.numeric);
+        log_info("Found Node: %.*s (NodeId: %d)\n",
+                 (int)ref->browseName.name.length, ref->browseName.name.data,
+                 ref->nodeId.nodeId.identifier.numeric);
       }
     }
   } else {
-    printf("Browse failed with status code: %x\n",
-           bResp.responseHeader.serviceResult);
+    log_error("Browse failed with status code: %x\n",
+              bResp.responseHeader.serviceResult);
   }
 
   UA_BrowseResponse_clear(&bResp);
@@ -42,7 +44,7 @@ void read_value_string(UA_Client *client, int node_id) {
   if (status == UA_STATUSCODE_GOOD &&
       UA_Variant_hasScalarType(&value, &UA_TYPES[UA_TYPES_STRING])) {
     UA_String *str = (UA_String *)value.data;
-    printf("Value: %*s\n", (int)str->length, str->data);
+    log_info("Value: %*s\n", (int)str->length, str->data);
   }
   UA_Variant_clear(&value);
 }
@@ -66,7 +68,7 @@ void read_value_double(UA_Client *client, int node_id) {
       client, UA_NODEID_NUMERIC(1, node_id), &value);
   if (status == UA_STATUSCODE_GOOD &&
       UA_Variant_hasScalarType(&value, &UA_TYPES[UA_TYPES_DOUBLE])) {
-    printf("Value: %f\n", *(double *)value.data);
+    log_info("Value: %f\n", *(double *)value.data);
   }
   UA_Variant_clear(&value);
 }
@@ -81,7 +83,7 @@ void write_to_string_node(UA_Client *client, int node_id, char *text) {
       client, UA_NODEID_NUMERIC(1, node_id), &value);
 
   if (status != UA_STATUSCODE_GOOD) {
-    printf("Error while saving string: %s\n", UA_StatusCode_name(status));
+    log_error("Error while saving string: %s\n", UA_StatusCode_name(status));
   }
 
   UA_String_clear(&uaString);
@@ -97,7 +99,7 @@ void write_to_double_node(UA_Client *client, int node_id, double new_value) {
       client, UA_NODEID_NUMERIC(1, node_id), &value);
 
   if (status != UA_STATUSCODE_GOOD) {
-    printf("Error while saving double: %s\n", UA_StatusCode_name(status));
+    log_error("Error while saving double: %s\n", UA_StatusCode_name(status));
   }
 }
 
@@ -111,7 +113,7 @@ void write_to_int32_node(UA_Client *client, int node_id, int new_value) {
       client, UA_NODEID_NUMERIC(1, node_id), &value);
 
   if (status != UA_STATUSCODE_GOOD) {
-    printf("Error while saving int32: %s\n", UA_StatusCode_name(status));
+    log_error("Error while saving int32: %s\n", UA_StatusCode_name(status));
   }
 }
 
@@ -120,7 +122,7 @@ void data_change_callback(UA_Client *client, UA_UInt32 subId, void *subContext,
                           UA_DataValue *value) {
   if (UA_Variant_hasScalarType(&value->value, &UA_TYPES[UA_TYPES_STRING])) {
     UA_String *str = (UA_String *)value->value.data;
-    printf("Received update: %.*s\n", (int)str->length, str->data);
+    log_info("Received update: %.*s\n", (int)str->length, str->data);
   }
 }
 
@@ -164,8 +166,9 @@ UA_Client *create_and_start_opc_ua_client(char *server_url) {
   UA_StatusCode status = UA_Client_connect(client, server_url);
   if (status != UA_STATUSCODE_GOOD) {
     UA_Client_delete(client);
-    printf("Failed to connect to server\n");
+    log_error("Failed to connect to server\n");
     return NULL;
   }
+  log_info("Client connected to server: %s\n", server_url);
   return client;
 }

@@ -13,6 +13,7 @@ add_subdirectory(tests)
 
 set(SERVER_SOURCES
     src/main.c
+    src/log.c
     src/opc_ua_server.c
     src/env_loader.c
     src/sections.c
@@ -20,6 +21,7 @@ set(SERVER_SOURCES
 
 set(CLIENT_SOURCES
     src/main_client.c
+    src/log.c
     src/opc_ua_client.c
     src/weather_thread.c
     src/env_loader.c

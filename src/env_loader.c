@@ -4,10 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../include/log.h"
+
 void load_env(const char *filename) {
   FILE *file = fopen(filename, "r");
   if (!file) {
-    perror("Cannot open file .env");
+    log_error("Cannot open file .env");
     return;
   }
 

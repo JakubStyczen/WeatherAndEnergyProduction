@@ -1,5 +1,7 @@
 #include "../include/weather_condition.h"
 
+#include "../include/log.h"
+
 static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb,
                                   void *userp) {
   size_t realsize = size * nmemb;
@@ -7,7 +9,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb,
 
   mem->memory = realloc(mem->memory, mem->size + realsize + 1);
   if (mem->memory == NULL) {
-    printf("Błąd alokacji pamięci!\n");
+    log_error("Błąd alokacji pamięci!\n");
     return 0;
   }
 
@@ -33,7 +35,7 @@ char *build_url(const char *base_url, double lat_d, double lon_d,
   char *url = (char *)malloc(len);
 
   if (url == NULL) {
-    printf("Error during URL memory allocation!\n");
+    log_error("Error during URL memory allocation!\n");
     return NULL;
   }
 
@@ -70,7 +72,7 @@ void fetch_weather_data(const char *url, WeatherData *weather_data) {
     } else {
       cJSON *json = cJSON_Parse(chunk.memory);
       if (json == NULL) {
-        printf("Error while parsing JSON\n");
+        log_error("Error while parsing JSON\n");
         return;
       }
 
@@ -82,9 +84,9 @@ void fetch_weather_data(const char *url, WeatherData *weather_data) {
       cJSON *cloudiness = cJSON_GetObjectItem(clouds, "all");
 
       if (temp != NULL && wind_speed != NULL && cloudiness != NULL) {
-        // printf("Temperature: %.2f°C\n", temp->valuedouble);
-        // printf("Wind speed: %.2f\n", wind_speed->valuedouble);
-        // printf("Cloudiness: %d\n", cloudiness->valueint);
+        log_trace("Temperature: %.2f°C\n", temp->valuedouble);
+        log_trace("Wind speed: %.2f\n", wind_speed->valuedouble);
+        log_trace("Cloudiness: %d\n", cloudiness->valueint);
         weather_data->temperature = temp->valuedouble;
         weather_data->wind_speed = wind_speed->valuedouble;
         weather_data->cloudiness = cloudiness->valueint;
@@ -106,8 +108,8 @@ int download_temperature_data_sections(GeoLoc geoArray[],
                                        UrlData url_data, int start_idx,
                                        int end_idx) {
   for (int i = start_idx; i < end_idx; i++) {
-    printf("Miasto %d: %s, Lat: %.4f, Lon: %.4f\n", i, geoArray[i].cities,
-           geoArray[i].lat, geoArray[i].lon);
+    log_debug("Miasto %d: %s, Lat: %.4f, Lon: %.4f\n", i, geoArray[i].cities,
+              geoArray[i].lat, geoArray[i].lon);
 
     char *url = build_url(url_data.base_url, geoArray[i].lat, geoArray[i].lon,
                           url_data.units, url_data.api_key);

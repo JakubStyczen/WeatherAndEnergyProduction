@@ -1,5 +1,7 @@
 #include "../include/opc_ua_server.h"
 
+#include "../include/log.h"
+
 static void add_object(UA_Server *server, char *name, int nodeID,
                        UA_NodeId parent_nodeID) {
   UA_NodeId myObject;
@@ -120,7 +122,7 @@ void create_and_start_opc_ua_server(char *server_url, GeoLoc array[]) {
   // TODO: Add nodes for other tasks
   add_average_weather_object(server, 3001);
 
-  printf("OPC UA Server started...\n");
+  log_info("OPC UA Server started...\n");
   UA_Server_runUntilInterrupt(server);
   UA_Server_delete(server);
 }
