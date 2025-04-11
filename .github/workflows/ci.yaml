@@ -32,7 +32,8 @@ jobs:
           g++ \
           git \
           pkg-config \
-          libssl-dev
+          libssl-dev \
+          doxygen
 
     - name: Update submodule (open62541)
       run: |
@@ -63,10 +64,15 @@ jobs:
         touch .env
         make build
 
-    - name: Run tests
+    - name: Generate documentation with Doxygen
       run: |
-        export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-        make test
+        make doc
+
+    - name: Upload Doxygen documentation
+      uses: actions/upload-artifact@v4
+      with:
+        name: doxygen-docs
+        path: docs/html
     
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4

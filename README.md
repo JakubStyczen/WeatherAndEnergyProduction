@@ -26,6 +26,7 @@ SERVER_URL=
 ```
 - install GTest: `sudo apt-get install libgtest-dev`
 - and GTest mock: `sudo apt-get install libgmock-dev`
+- doxygen: `sudo apt install doxygen graphviz`
 
 ## Compliation:
 ### Via make:

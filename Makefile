@@ -9,13 +9,16 @@ OBJ_SERVER = $(SRC_SERVER:.c=.o)
 SRC_CLIENT = src/main_client.c src/env_loader.c src/weather_thread.c src/opc_ua_client.c src/sections.c src/weather_condition.c src/log.c
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 
-.PHONY: all build test server client clean help
+.PHONY: all build doc test server client clean help
 
 BUILD_DIR = build/
 
 TEST_DIR = tests/run_tests
 
 all: server client
+
+doc: 
+	cd $(BUILD_DIR) && make doc
 
 build: 
 	mkdir -p $(BUILD_DIR)
@@ -47,4 +50,5 @@ help:
 	@echo "  make client   - Build only the client"
 	@echo "  make test     - Run tests all for repository"
 	@echo "  make clean    - Remove compiled files"
+	@echo "  make doc      - Generate documentation using Doxygen"
 	@echo "  make help     - Show this help message"
