@@ -62,3 +62,6 @@ build/
 
 # Docs working dir
 docs/
+
+# Scripts folder
+scripts/

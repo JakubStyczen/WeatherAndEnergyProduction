@@ -24,6 +24,8 @@ void add_weather_object(UA_Server *server, char *name, int nodeID,
                         int parent_nodeID);
 void add_average_weather_object(UA_Server *server, int parent_nodeID);
 
+void add_energy_data_objects(UA_Server *server, int parent_nodeID);
+
 void create_and_start_opc_ua_server(char *server_url, GeoLoc array[]);
 
 void add_weather_object_for_every_section(UA_Server *server, GeoLoc array[],

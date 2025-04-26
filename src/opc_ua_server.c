@@ -100,6 +100,21 @@ void add_average_weather_object(UA_Server *server, int parent_nodeID) {
   add_int32_node(server, "Cloudiness", parent_nodeID + 4, parent_nodeID);
 }
 
+void add_energy_data_objects(UA_Server *server, int parent_nodeID) {
+  add_double_node(server, "Thermal", parent_nodeID + 1, parent_nodeID);
+  add_double_node(server, "Water", parent_nodeID + 2, parent_nodeID);
+  add_double_node(server, "Wind", parent_nodeID + 3, parent_nodeID);
+  add_double_node(server, "Solar", parent_nodeID + 4, parent_nodeID);
+  add_double_node(server, "Other", parent_nodeID + 5, parent_nodeID);
+  add_double_node(server, "CZ", parent_nodeID + 6, parent_nodeID);
+  add_double_node(server, "DE", parent_nodeID + 7, parent_nodeID);
+  add_double_node(server, "SK", parent_nodeID + 8, parent_nodeID);
+  add_double_node(server, "LT", parent_nodeID + 9, parent_nodeID);
+  add_double_node(server, "UA", parent_nodeID + 10, parent_nodeID);
+  add_double_node(server, "SE", parent_nodeID + 11, parent_nodeID);
+  add_double_node(server, "Frequency", parent_nodeID + 12, parent_nodeID);
+}
+
 void create_and_start_opc_ua_server(char *server_url, GeoLoc array[]) {
   UA_Server *server = UA_Server_new();
   UA_ServerConfig *config = UA_Server_getConfig(server);
@@ -117,10 +132,13 @@ void create_and_start_opc_ua_server(char *server_url, GeoLoc array[]) {
   add_object(server, "Weather station", 1001, parentNodeId);
   add_object(server, "Weather data", 2001, UA_NODEID_NUMERIC(1, 1001));
   add_object(server, "Average data", 3001, UA_NODEID_NUMERIC(1, 1001));
+  add_object(server, "Energy data", 4001, UA_NODEID_NUMERIC(1, 1001));
 
   add_weather_object_for_every_section(server, array, 2001);
-  // TODO: Add nodes for other tasks
+
   add_average_weather_object(server, 3001);
+
+  add_energy_data_objects(server, 4001);
 
   log_info("OPC UA Server started...\n");
   UA_Server_runUntilInterrupt(server);
