@@ -113,6 +113,7 @@ void add_energy_data_objects(UA_Server *server, int parent_nodeID) {
   add_double_node(server, "UA", parent_nodeID + 10, parent_nodeID);
   add_double_node(server, "SE", parent_nodeID + 11, parent_nodeID);
   add_double_node(server, "Frequency", parent_nodeID + 12, parent_nodeID);
+  add_string_node(server, "Date", parent_nodeID + 13, parent_nodeID);
 }
 
 void create_and_start_opc_ua_server(char *server_url, GeoLoc array[]) {
